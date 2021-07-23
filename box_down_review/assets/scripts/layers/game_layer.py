@@ -18,15 +18,19 @@ from assets.scripts.box_remove_provider import BoxRemoveProvider
 from assets.scripts.game_score import Score
 from assets.scripts.ui.game_score_ui_presenter import ScoreUiPresenter
 
+from assets.scripts.time_freezer import TimeFreezer
+
 from assets.scripts.collision_detector import CollisionDetector
 
 
 class GameLayer(Layer):
 
     def on_attach(self) -> NoReturn:
-        # TODO: Как то надо доводить до сюда размеры окна и
-        #       устанавливать их, а то сейчас они захардкожены.
-        self.__level_bounds = pygame.Rect(0, 0, 900, 600)
+        app = self.app_context.get_instance()
+
+        self.__level_bounds = pygame.Rect((0, 0), app.viewport_resolution)
+
+        self.__time_freezer = TimeFreezer()
 
         self.__score = Score()
         self.__score_ui_presenter = ScoreUiPresenter(self.__score)
@@ -36,30 +40,40 @@ class GameLayer(Layer):
         self.__player_health_ui_renderer = PlayerHealthUiPresenter(self.__player)
 
         self.__boxes = list()
-        self.__box_renderers = dict()
-
         self.__box_spawner = BoxSpawner(self.__boxes, self.__level_bounds)
         self.__box_remove_provider = BoxRemoveProvider(self.__boxes, self.__level_bounds)
-        self.__box_remove_provider.removed.add_listener(lambda _: self.__score.change_value(1))
+        self.__box_remove_provider.removed.add_listener(self.__change_score)
 
         self.__collision_detector = CollisionDetector(self.__player, self.__boxes)
+        self.__collision_detector.collision_entered.add_listener(self.__player.on_collision_enter)
+
+        self.__collision_detector.collision_entered.add_listener(self.__time_freezer.start)
+        self.__collision_detector.collision_released.add_listener(self.__time_freezer.finish)
 
         self.__box_remove_provider.emergency_removing.add_listener(self.__collision_detector.on_emergency_box_remove)
 
     def on_detach(self) -> NoReturn:
-        self.__box_remove_provider.removed.remove_listener(lambda _: self.__score.change_value(1))
+        self.__collision_detector.collision_entered.remove_listener(self.__player.on_collision_enter)
 
+        self.__collision_detector.collision_entered.remove_listener(self.__time_freezer.start)
+        self.__collision_detector.collision_released.remove_listener(self.__time_freezer.finish)
+
+        self.__box_remove_provider.removed.remove_listener(self.__change_score)
         self.__box_remove_provider.emergency_removing.remove_listener(self.__collision_detector.on_emergency_box_remove)
 
     def on_update(self, ts: Timestep) -> NoReturn:
+        delta_time = ts.delta_time_in_seconds
+        self.__time_freezer.on_update(delta_time)
+        freezed_delta_time = delta_time * self.__time_freezer.freeze
+
         self.__collision_detector.on_update()
 
-        self.__box_spawner.on_update()
+        self.__box_spawner.on_update(freezed_delta_time)
         for box in self.__boxes:
-            box.on_update(ts.delta_time_in_seconds)
+            box.on_update(freezed_delta_time)
         self.__box_remove_provider.on_update()
 
-        self.__player.on_update(ts.delta_time_in_seconds)
+        self.__player.on_update(freezed_delta_time)
 
     def on_render(self, context: pygame.Surface) -> NoReturn:
         # TODO: Кэширование ренедереров
@@ -74,3 +88,6 @@ class GameLayer(Layer):
 
     def on_event(self, event: pygame.event.Event) -> NoReturn:
         self.__player.on_event(event)
+
+    def __change_score(self, _) -> NoReturn:
+        self.__score.change_value(1)

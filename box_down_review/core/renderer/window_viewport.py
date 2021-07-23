@@ -26,6 +26,10 @@ class WindowViewport:
         self.__surface = pygame.Surface(resolution)
 
     @property
+    def resolution(self) -> pygame.Vector2:
+        return self.__resolution
+
+    @property
     def scale_factor(self) -> float:
         return self.__scale_factor
 

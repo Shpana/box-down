@@ -27,7 +27,7 @@ class Player:
 
         self.__scale = pygame.Vector2(20, 20)
         self.__position = pygame.Vector2(
-            self.__level_bounds.w // 2 + self.__scale.x // 2, self.__level_bounds.h - self.__scale.y)
+            self.__level_bounds.w // 2 - self.__scale.x // 2, self.__level_bounds.h - self.__scale.y)
 
         self.__movement_response = PlayerMovementResponse(level_bounds, self.__position, self.__scale)
 

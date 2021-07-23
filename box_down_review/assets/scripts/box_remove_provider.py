@@ -34,4 +34,4 @@ class BoxRemoveProvider:
         self.__removed.invoke(box)
 
     def __should_remove_box(self, box: Box) -> bool:
-        return box.position.y > self.__level_bounds.h
+        return box.position.y > self.__level_bounds.h + box.rect.h

@@ -35,6 +35,10 @@ class Application:
         self.__window_toolkit = WindowToolkit(self.__window)
 
     @property
+    def viewport_resolution(self) -> pygame.Vector2:
+        return self.__window.viewport_resolution
+
+    @property
     def window_toolkit(self) -> WindowToolkit:
         return self.__window_toolkit
 

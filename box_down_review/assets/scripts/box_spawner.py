@@ -1,7 +1,7 @@
 import time
 import pygame
 
-from typing import NoReturn
+from typing import NoReturn, Generator
 
 from assets.scripts.box import Box
 
@@ -26,39 +26,45 @@ class BoxSpawner:
 
         self.__difficulty_increse_corutine = self.__increse_difficulty(
             self.__increse_difficulty_interval)
+        self.__difficulty_increse_corutine.send(None)
 
         self.__spawn_corutine = self.__spawn_in(
             self.__lerp(self.__max_spawn_interval, self.__min_spawn_interval, self.__difficulty))
+        self.__spawn_corutine.send(None)
 
-    def on_update(self) -> NoReturn:
+    def on_update(self, dt: float) -> NoReturn:
         try:
-            next(self.__difficulty_increse_corutine)
+            self.__difficulty_increse_corutine.send(dt)
         except StopIteration:
             self.__difficulty_increse_corutine = self.__increse_difficulty(
                 self.__increse_difficulty_interval)
+            self.__difficulty_increse_corutine.send(None)
 
         try:
-            next(self.__spawn_corutine)
+            self.__spawn_corutine.send(dt)
         except StopIteration:
             self.__spawn_corutine = self.__spawn_in(
                 self.__lerp(self.__max_spawn_interval, self.__min_spawn_interval, self.__difficulty))
+            self.__spawn_corutine.send(None)
 
     def __lerp(self, from_: float, to: float, t: float) -> float:
         return from_ + t * (to - from_)
 
     def __spawn_in(self, interval: float) -> NoReturn:
-        start_point = time.time()
+        elapsed_time = 0.0
 
-        while time.time() - start_point < interval:
-            yield
+        dt = 0.0
+        while elapsed_time < interval:
+            elapsed_time += yield dt
 
         if len(self.__boxes) <= self.max_possible_box_count:
             self.__boxes.append(Box(self.__level_bounds))
 
     def __increse_difficulty(self, interval: float) -> NoReturn:
-        start_point = time.time()
+        elapsed_time = 0.0
 
-        while time.time() - start_point < interval:
-            yield
+        dt = 0.0
+        while elapsed_time < interval:
+            elapsed_time += yield dt
 
         self.__difficulty = min(self.__difficulty + self.__difficulty_delta, self.__max_difficulty)

@@ -25,6 +25,10 @@ class Window:
         self.__refresh_display()
 
     @property
+    def viewport_resolution(self) -> pygame.Vector2:
+        return self.__viewport.resolution
+
+    @property
     def title(self) -> str:
         return self.__title
 
