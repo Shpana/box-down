@@ -2,8 +2,8 @@ import pygame
 
 from typing import NoReturn
 
+from core.events.event_dispatcher import EventDispatcher
 from assets.scripts.physics_constanst import GRAVITY_SCALE
-from assets.scripts.core.event_dispatcher import EventDispatcher
 
 
 class PlayerMovementResponse:
@@ -35,7 +35,7 @@ class PlayerMovementResponse:
 
     def on_event(self, event: pygame.event.Event) -> NoReturn:
         dispatcher = EventDispatcher(event)
-        dispatcher.dispatch_key(pygame.K_SPACE, self.__try_jump)
+        dispatcher.dispatch_key_down(pygame.K_SPACE, self.__try_jump)
 
     def __try_jump(self, event: pygame.event.Event):
         if self.__can_jump():

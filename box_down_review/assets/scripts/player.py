@@ -2,8 +2,8 @@ import pygame
 
 from typing import NoReturn
 
+from assets.scripts.box import Box
 from assets.scripts.player_movement_response import PlayerMovementResponse
-from assets.scripts.player_collision_response import PlayerCollisionResponse
 
 
 class Player:
@@ -26,18 +26,19 @@ class Player:
         self.__health = self.max_possible_health
 
         self.__scale = pygame.Vector2(20, 20)
-        self.__position = pygame.Vector2(390, 560)
+        self.__position = pygame.Vector2(
+            self.__level_bounds.w // 2 + self.__scale.x // 2, self.__level_bounds.h - self.__scale.y)
 
         self.__movement_response = PlayerMovementResponse(level_bounds, self.__position, self.__scale)
-        self.__collision_response = PlayerCollisionResponse()
 
-    def on_update(self, other, dt: float):
-        self.collide(other)
-
+    def on_update(self, dt: float):
         self.__movement_response.on_update(dt)
 
     def on_event(self, event: pygame.event.Event) -> NoReturn:
         self.__movement_response.on_event(event)
 
-    def collide(self, other):
-        self.__collision_response.solve_collision(self.rect)
+    def on_collision_enter(self, other: Box) -> NoReturn:
+        self.__apply_damage(1)
+
+    def __apply_damage(self, damage: float) -> NoReturn:
+        self.__health -= damage
