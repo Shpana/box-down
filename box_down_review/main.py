@@ -1,12 +1,10 @@
-from core.application_context import ApplicationContext
+from core.application_builder import ApplicationBuilder
 
 from assets.scripts.layers.game_layer import GameLayer
 
 
 if __name__ == "__main__":
-    context = ApplicationContext()
-    context.config.from_ini("project.config")
-
-    app = context.get_instance()
-    app.add_layer(GameLayer(context))
-    app.run()
+    ApplicationBuilder() \
+        .use_layer(GameLayer) \
+        .with_title("Box Down") \
+        .with_resolution((900, 600)).build().run()

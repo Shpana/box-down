@@ -26,9 +26,8 @@ from assets.scripts.collision_detector import CollisionDetector
 class GameLayer(Layer):
 
     def on_attach(self) -> NoReturn:
-        app = self.app_context.get_instance()
-
-        self.__level_bounds = pygame.Rect((0, 0), app.viewport_resolution)
+        # TODO: Убрать хардкод
+        self.__level_bounds = pygame.Rect((0, 0), (900, 600))
 
         self.__time_freezer = TimeFreezer()
 
