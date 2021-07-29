@@ -10,7 +10,6 @@ class ScoreUiPresenter(IUiPresenter):
 
     __color = pygame.Color(255, 255, 255)
 
-
     def __init__(self, handle: Score) -> NoReturn:
         self.__handle = handle
 

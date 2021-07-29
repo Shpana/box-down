@@ -2,6 +2,8 @@ import pygame
 
 from typing import NoReturn
 
+from core.events.event import Event
+
 from assets.scripts.box import Box
 from assets.scripts.player_movement_response import PlayerMovementResponse
 
@@ -20,7 +22,13 @@ class Player:
     def rect(self) -> pygame.Rect:
         return pygame.Rect(self.__position, self.__scale)
 
+    @property
+    def on_death(self) -> Event:
+        return self.__on_death
+
     def __init__(self, level_bounds: pygame.Rect) -> NoReturn:
+        self.__on_death = Event()
+
         self.__level_bounds = level_bounds
 
         self.__health = self.max_possible_health
@@ -42,3 +50,6 @@ class Player:
 
     def __apply_damage(self, damage: float) -> NoReturn:
         self.__health -= damage
+
+        if self.__health <= 0:
+            self.__on_death.invoke()
