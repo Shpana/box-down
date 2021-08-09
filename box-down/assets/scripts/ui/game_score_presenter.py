@@ -3,10 +3,10 @@ import pygame
 from typing import NoReturn
 
 from ..game_score import Score
-from .iui_presenter import IUiPresenter
+from .ipresenter import IPresenter
 
 
-class ScoreUiPresenter(IUiPresenter):
+class ScorePresenter(IPresenter):
 
     __color = pygame.Color(255, 255, 255)
 

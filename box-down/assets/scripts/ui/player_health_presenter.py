@@ -3,10 +3,10 @@ import pygame
 from typing import NoReturn
 
 from ..player import Player
-from .iui_presenter import IUiPresenter
+from .ipresenter import IPresenter
 
 
-class PlayerHealthUiPresenter(IUiPresenter):
+class PlayerHealthPresenter(IPresenter):
 
     __bar_scale = pygame.Vector2(10, 20)
 

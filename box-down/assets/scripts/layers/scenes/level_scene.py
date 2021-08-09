@@ -10,7 +10,7 @@ from assets.scripts.layers.scenes.iscene import IScene
 
 from assets.scripts.player import Player
 from assets.scripts.player_renderer import PlayerRenderer
-from assets.scripts.ui.player_health_ui_presenter import PlayerHealthUiPresenter
+from assets.scripts.ui.player_health_presenter import PlayerHealthPresenter
 
 from assets.scripts.box import Box
 from assets.scripts.box_spawner import BoxSpawner
@@ -18,7 +18,7 @@ from assets.scripts.box_renderer import BoxRenderer
 from assets.scripts.box_remove_provider import BoxRemoveProvider
 
 from assets.scripts.game_score import Score
-from assets.scripts.ui.game_score_ui_presenter import ScoreUiPresenter
+from assets.scripts.ui.game_score_presenter import ScorePresenter
 
 from assets.scripts.time_freezer import TimeFreezer
 
@@ -40,11 +40,11 @@ class LevelScene(IScene):
         self.__time_freezer = TimeFreezer()
 
         self.__score = Score()
-        self.__score_ui_presenter = ScoreUiPresenter(self.__score)
+        self.__score_presenter = ScorePresenter(self.__score)
 
         self.__player = Player(self.__level_bounds)
         self.__player_renderer = PlayerRenderer(self.__player)
-        self.__player_health_ui_renderer = PlayerHealthUiPresenter(self.__player)
+        self.__player_health_renderer = PlayerHealthPresenter(self.__player)
 
         self.__boxes = list()
         self.__box_spawner = BoxSpawner(self.__boxes, self.__level_bounds)
@@ -92,8 +92,8 @@ class LevelScene(IScene):
 
         self.__player_renderer.on_render(context)
 
-        self.__score_ui_presenter.on_present(context)
-        self.__player_health_ui_renderer.on_present(context)
+        self.__score_presenter.on_present(context)
+        self.__player_health_renderer.on_present(context)
 
     def on_event(self, event: pygame.event.Event) -> NoReturn:
         self.__player.on_event(event)
