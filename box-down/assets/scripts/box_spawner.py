@@ -3,7 +3,7 @@ import pygame
 
 from typing import NoReturn, Generator
 
-from assets.scripts.box import Box
+from .box import Box
 
 
 class BoxSpawner:

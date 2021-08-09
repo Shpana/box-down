@@ -3,7 +3,7 @@ import random
 
 from typing import NoReturn
 
-from assets.scripts.physics_constanst import GRAVITY_SCALE
+from .physics_constanst import GRAVITY_SCALE
 
 
 class Box:

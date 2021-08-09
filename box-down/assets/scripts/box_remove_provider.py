@@ -3,7 +3,7 @@ import pygame
 from typing import NoReturn
 
 from core.events.event import Event
-from assets.scripts.box import Box
+from .box import Box
 
 
 class BoxRemoveProvider:

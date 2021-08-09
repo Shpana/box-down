@@ -2,8 +2,8 @@ import pygame
 
 from typing import NoReturn
 
-from assets.scripts.box import Box
-from assets.scripts.irenderer import IRenderer
+from .box import Box
+from .irenderer import IRenderer
 
 
 class BoxRenderer(IRenderer):

@@ -4,8 +4,8 @@ from typing import NoReturn
 
 from core.events.event import Event
 
-from assets.scripts.box import Box
-from assets.scripts.player import Player
+from .box import Box
+from .player import Player
 
 
 class CollisionDetector:

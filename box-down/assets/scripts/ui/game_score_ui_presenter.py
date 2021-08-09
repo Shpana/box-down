@@ -2,8 +2,8 @@ import pygame
 
 from typing import NoReturn
 
-from assets.scripts.game_score import Score
-from assets.scripts.ui.iui_presenter import IUiPresenter
+from ..game_score import Score
+from .iui_presenter import IUiPresenter
 
 
 class ScoreUiPresenter(IUiPresenter):

@@ -3,7 +3,7 @@ import pygame
 from typing import NoReturn
 
 from core.events.event_dispatcher import EventDispatcher
-from assets.scripts.physics_constanst import GRAVITY_SCALE
+from .physics_constanst import GRAVITY_SCALE
 
 
 class PlayerMovementResponse:

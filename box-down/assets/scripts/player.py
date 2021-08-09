@@ -4,8 +4,8 @@ from typing import NoReturn
 
 from core.events.event import Event
 
-from assets.scripts.box import Box
-from assets.scripts.player_movement_response import PlayerMovementResponse
+from .box import Box
+from .player_movement_response import PlayerMovementResponse
 
 
 class Player:

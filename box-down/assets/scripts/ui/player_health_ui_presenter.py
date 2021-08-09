@@ -2,8 +2,8 @@ import pygame
 
 from typing import NoReturn
 
-from assets.scripts.player import Player
-from assets.scripts.ui.iui_presenter import IUiPresenter
+from ..player import Player
+from .iui_presenter import IUiPresenter
 
 
 class PlayerHealthUiPresenter(IUiPresenter):

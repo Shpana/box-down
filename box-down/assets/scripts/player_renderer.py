@@ -2,8 +2,8 @@ import pygame
 
 from typing import NoReturn
 
-from assets.scripts.player import Player
-from assets.scripts.irenderer import IRenderer
+from .player import Player
+from .irenderer import IRenderer
 
 
 class PlayerRenderer(IRenderer):
