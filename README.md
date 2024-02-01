@@ -1,6 +1,6 @@
 # box-down
 
-![](/promo/gameplay_example.gif)
+<img src="/promo/gameplay_example.gif" width=100%/>
 
 Ты &ndash; маленький зеленый квадратик. Сверху &ndash; летят коробки. Единственное, что тебе остается &ndash; уварачиваться от них; на вопросы о game-дизайне времени не остается... 
 
